@@ -53,7 +53,7 @@ export default function DashboardPage() {
     setAnalysisResult(null)
 
     try {
-      const res = await fetch("http://localhost:5000/predict", {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
