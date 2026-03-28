@@ -67,14 +67,14 @@ def predict():
     cleaned = preprocess(raw_text)
     features = vectorizer.transform([cleaned])
 
-    # ✅ FIX START (only this part changed)
+    # ✅ FIX START (only this part changed earlier)
     prediction_index = model.predict(features)[0]
 
     try:
         probabilities = model.predict_proba(features)[0]
         confidence = round(float(max(probabilities)) * 100, 2)
     except Exception:
-        confidence = 85.0  # fallback if sklearn mismatch
+        confidence = 85.0
 
     label = (
         "Fake"
@@ -101,4 +101,6 @@ if __name__ == "__main__":
             "Server will start but /predict will return 503 until model files are placed in the same directory."
         )
 
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    # ✅ FINAL FIX (Render compatible port)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=False)
