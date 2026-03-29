@@ -44,7 +44,6 @@ export default function DashboardPage() {
     router.push("/login")
   }
 
-  // 🔥 FIXED FUNCTION (only error handling improved)
   const analyzeNews = async () => {
     const content = activeTab === "text" ? newsText : newsUrl
     if (!content.trim()) return
@@ -53,7 +52,7 @@ export default function DashboardPage() {
     setAnalysisResult(null)
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/predict", {
+      const res = await fetch("https://fakenewsdetector-0dx5.onrender.com/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +60,6 @@ export default function DashboardPage() {
         body: JSON.stringify({ text: content }),
       })
 
-      // ✅ FIX: check response before parsing
       if (!res.ok) {
         const text = await res.text()
         console.error("Backend error:", text)
